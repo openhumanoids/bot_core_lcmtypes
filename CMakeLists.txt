@@ -6,6 +6,3 @@ include(cmake/pods.cmake)
 
 include(cmake/lcmtypes.cmake)
 lcmtypes_build(C_AGGREGATE_HEADER bot_core.h CPP_AGGREGATE_HEADER bot_core.hpp)
-
-add_subdirectory(src/bot_core)
-add_subdirectory(java)
