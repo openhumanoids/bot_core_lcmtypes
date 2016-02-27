@@ -1,0 +1,10 @@
+package bot_core;
+
+// Message produced by KVH sensor on Atlas robot
+
+struct kvh_raw_imu_batch_t
+{
+  int64_t utime; // timestamp of corresponding status and state message
+  int32_t num_packets;
+  kvh_raw_imu_t raw_imu[num_packets];
+}
