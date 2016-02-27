@@ -1,0 +1,14 @@
+package bot_core;
+
+// Message produced by KVH sensor on Atlas robot
+
+struct kvh_raw_imu_t
+{
+  int64_t utime;
+
+  int64_t packet_count;
+  
+  double delta_rotation[3];
+
+  double linear_acceleration[3];
+}
