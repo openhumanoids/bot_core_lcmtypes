@@ -467,7 +467,7 @@ endfunction()
 
 macro(lcmtypes_build)
     find_package(PkgConfig REQUIRED)
-    pkg_check_modules(LCM REQUIRED lcm)
+    pkg_check_modules(LCM lcm)
     
     #find lcm-gen (it may be in the install path)
     find_program(LCM_GEN_EXECUTABLE lcm-gen ${EXECUTABLE_OUTPUT_PATH} ${EXECUTABLE_INSTALL_PATH})
