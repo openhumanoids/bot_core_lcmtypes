@@ -27,7 +27,11 @@ string(STRIP ${LCM_JAR} LCM_JAR)
 # where is lcmtypes_bot2-core.jar?
 #set(bot2_core_jar ${CMAKE_INSTALL_PREFIX}/share/java/lcmtypes_bot2-core.jar)
 
-set(classpath "${src_dir}\;${LCM_JAR}\;${CMAKE_CURRENT_BINARY_DIR}/../${LCMTYPES_JAR}.jar")
+if (WIN32)
+	set(classpath "${src_dir}\;${LCM_JAR}\;${CMAKE_CURRENT_BINARY_DIR}/../${LCMTYPES_JAR}.jar")
+else()
+	set(classpath "${src_dir}:${LCM_JAR}:${CMAKE_CURRENT_BINARY_DIR}/../${LCMTYPES_JAR}.jar")
+endif()
 
 
 # =============
