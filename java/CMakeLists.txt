@@ -27,7 +27,7 @@ string(STRIP ${LCM_JAR} LCM_JAR)
 # where is lcmtypes_bot2-core.jar?
 #set(bot2_core_jar ${CMAKE_INSTALL_PREFIX}/share/java/lcmtypes_bot2-core.jar)
 
-set(classpath ${src_dir}:${LCM_JAR}:${LCMTYPES_JAR})
+set(classpath ${src_dir}:${LCM_JAR}:${CMAKE_CURRENT_BINARY_DIR}/../${LCMTYPES_JAR}.jar)
 
 
 # =============
@@ -60,7 +60,7 @@ add_custom_command(OUTPUT ${jar_fname} COMMAND
     ${JAVA_ARCHIVE} cf ${jar_fname} -C ${class_dir} . 
     DEPENDS ${class_files})
 add_custom_target(jar ALL DEPENDS ${jar_fname})
-add_dependencies(jar lcmtypes_${POD_NAME}_jar) #the jar depends on the lcmtypes being already built.
+add_dependencies(jar ${LCMTYPES_JAR}) #the jar depends on the lcmtypes being already built.
 
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${jar_fname} DESTINATION share/java)
