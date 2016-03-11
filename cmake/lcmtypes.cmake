@@ -82,6 +82,8 @@
 
 cmake_minimum_required(VERSION 2.8.3) # for the CMakeParseArguments macro
 
+include(CMakeParseArguments)
+
 # Policy settings to prevent warnings on 2.6 but ensure proper operation on
 # 2.4.
 if(COMMAND cmake_policy)
