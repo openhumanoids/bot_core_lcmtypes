@@ -423,6 +423,12 @@ function(add_java_lcmtype lcmtype)
     return()
   endif()
 
+  find_package(Java)
+  if (NOT Java_FOUND)
+    message(WARNING "Java not found, not building Java LCM-types or extensions")
+    return()
+  endif()
+
   get_filename_component(lcmtype ${lcmtype} ABSOLUTE)
   get_filename_component(lcmtype_we ${lcmtype} NAME_WE)
   get_package_name(${lcmtype})
