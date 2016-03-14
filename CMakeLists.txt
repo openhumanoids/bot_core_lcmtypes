@@ -5,7 +5,6 @@ set(POD_NAME bot2-core)
 include(cmake/pods.cmake)
 
 include(cmake/lcmtypes.cmake)
-lcmtypes_build(C_AGGREGATE_HEADER bot_core.h CPP_AGGREGATE_HEADER bot_core.hpp)
+lcmtypes_build(C_AGGREGATE_HEADER bot_core CPP_AGGREGATE_HEADER bot_core)
 
 add_subdirectory(java)
-
