@@ -256,6 +256,12 @@ function(lcmtypes_build_java)
     return()
   endif()
 
+  find_package(Java)
+  if (NOT Java_FOUND)
+    message(WARNING "Java not found, not building Java LCM-types or extensions")
+    return()
+  endif()
+
   find_lcmtypes(_msgs)
   foreach(_msg ${_msgs})
     add_java_lcmtype(${_msg})
