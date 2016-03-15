@@ -257,7 +257,7 @@ function(lcmtypes_build_java)
   endif()
 
   find_package(Java)
-  if (NOT Java_FOUND)
+  if (NOT JAVA_FOUND)
     message(WARNING "Java not found, not building Java LCM-types or extensions")
     return()
   endif()
