@@ -27,6 +27,11 @@ string(STRIP ${LCM_JAR} LCM_JAR)
 # where is lcmtypes_bot2-core.jar?
 #set(bot2_core_jar ${CMAKE_INSTALL_PREFIX}/share/java/lcmtypes_bot2-core.jar)
 
+if(NOT LCMTYPES_JAR)
+    message(WARNING "lcmtypes jar not found, not building bot-spy extensions")
+    return()
+endif()
+
 if (WIN32)
 	set(classpath "${src_dir}\;${LCM_JAR}\;${CMAKE_CURRENT_BINARY_DIR}/../${LCMTYPES_JAR}.jar")
 else()
