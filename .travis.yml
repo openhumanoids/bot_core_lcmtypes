@@ -3,7 +3,7 @@ before_install:
   - cd && wget https://github.com/lcm-proj/lcm/releases/download/v1.1.0/lcm-1.1.0.zip
   - unzip lcm-1.1.0.zip && cd lcm-1.1.0
   - mkdir ~/lcm
-  - ./configure --prefix=~/lcm
+  - ./configure --prefix=/home/travis/lcm
   - make && make install
   - export LCM_BASE=/home/travis/lcm
   - export PATH=$PATH:$LCM_BASE/bin
