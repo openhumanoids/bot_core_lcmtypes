@@ -195,10 +195,10 @@ function(lcmtypes_build_c)
     install(FILES ${__agg_h_fname} DESTINATION include/lcmtypes)
 
     # create a pkg-config file
-    pods_install_pkg_config_file(${libname}
+	  pods_install_pkg_config_file(${LCMTYPES_C_LIBNAME}
 		CFLAGS
 		DESCRIPTION "LCM types for ${PROJECT_NAME}"
-		LIBS -l${libname}
+	  LIBS -l${LCMTYPES_C_LIBNAME}
 		REQUIRES lcm
 		VERSION 0.0.0)
 
