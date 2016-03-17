@@ -87,8 +87,6 @@ include(CMakeParseArguments)
 # Policy settings to prevent warnings on 2.6 but ensure proper operation on
 # 2.4.
 if(COMMAND cmake_policy)
-    # Logical target names must be globally unique.
-    cmake_policy(SET CMP0002 OLD)
     # Libraries linked via full path no longer produce linker search paths.
     cmake_policy(SET CMP0003 OLD)
     # Preprocessor definition values are now escaped automatically.
@@ -164,6 +162,7 @@ function(lcmtypes_build_c)
   if (NOT LCMTYPES_C_LIBNAME)
     set(LCMTYPES_C_LIBNAME "${__sanitized_project_name}_lcmtypes")
   endif()
+  set(LCMTYPES_C_LIBNAME_TARGET ${LCMTYPES_C_LIBNAME}_c_target)
   set(LCMTYPES_C_HEADERFILES)
 
   if (LCMTYPES_C_SOURCEFILES)
@@ -184,13 +183,14 @@ function(lcmtypes_build_c)
     endforeach()
     file(APPEND "${__agg_h_fname}" "\n#endif\n")
 
-    add_library(${LCMTYPES_C_LIBNAME} ${LCMTYPES_C_SOURCEFILES})
+    add_library(${LCMTYPES_C_LIBNAME_TARGET} ${LCMTYPES_C_SOURCEFILES})
+    set_target_properties(${LCMTYPES_C_LIBNAME_TARGET} PROPERTIES OUTPUT_NAME ${LCMTYPES_C_LIBNAME})
 
     if (WIN32)  # only for MSVC?
       set_source_files_properties(${LCMTYPES_C_SOURCEFILES} PROPERTIES COMPILE_FLAGS /TP)
     endif()
-    pods_use_pkg_config_packages(${LCMTYPES_C_LIBNAME} lcm)
-    pods_install_libraries(${LCMTYPES_C_LIBNAME})
+    pods_use_pkg_config_packages(${LCMTYPES_C_LIBNAME_TARGET} lcm)
+    pods_install_libraries(${LCMTYPES_C_LIBNAME_TARGET})
 
     install(FILES ${__agg_h_fname} DESTINATION include/lcmtypes)
 
