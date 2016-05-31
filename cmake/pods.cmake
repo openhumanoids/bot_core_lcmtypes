@@ -35,18 +35,6 @@
 # File: pods.cmake
 # Distributed with pods version: 12.11.14
 
-
-function(get_relative_path from to var)
-#  find_package(PythonInterp)
-  find_program(mypy NAMES python2.7 python2.6) # PythonInterp finds a symlink on cygwin, which then fails in the execute process below
-#  message(from=${from})
-#  message(to=${to})
-  get_filename_component(from "${from}" ABSOLUTE)
-  get_filename_component(to "${to}" ABSOLUTE)
-  execute_process(COMMAND "${mypy}" "-c" "import os; print os.path.relpath('${to}','${from}')" OUTPUT_VARIABLE myvar OUTPUT_STRIP_TRAILING_WHITESPACE)
-  set(${var} "${myvar}" PARENT_SCOPE)
-endfunction()
-
 function(call_cygpath format var)
 #  message(STATUS "calling cygpath with ${format} ${${var}}")
 #  message("before cygpath: ${${var}}")
@@ -54,6 +42,10 @@ function(call_cygpath format var)
   if (NOT ${var})  # do nothing if var is empty
     return()
   endif()
+  # this only works if the incoming path is unix style /
+  # otherwise the zap the \ removes all the directory separators
+  # so convert to cmake path first
+  file(TO_CMAKE_PATH  ${${var}}  ${var})
   string(REGEX REPLACE "([^\\\\]) " "\\1;" ${var} ${${var}})  # separate arguments didn't respect the "Program\ Files"... it resulted in "Program;Files"
   string(REGEX REPLACE "\\\\" "" ${var} "${${var}}")  # now zap the \
   string(STRIP ${${var}} ${var})
@@ -95,7 +87,10 @@ endmacro()
 
 macro(shell_path var)
   if (WIN32 AND cygpath AND ${var})
-    call_cygpath(-u ${var})
+    # we never want /cygdrive as cmake and other
+    # native tools will not know what that is, so
+    # use -m to get unix paths with drive:
+    call_cygpath(-m ${var})
   endif()
 endmacro()
 
