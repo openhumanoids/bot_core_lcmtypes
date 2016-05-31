@@ -1,6 +1,14 @@
 find_package(PythonInterp)
 find_package(Java)
 
+include(CMakePackageConfigHelpers)
+
+if(WIN32)
+  set(CONFIG_INSTALL_DIR CMake)
+else()
+  set(CONFIG_INSTALL_DIR lib${LIB_SUFFIX}/${PROJECT_NAME}/cmake)
+endif()
+
 if(PYTHONINTERP_FOUND)
   set(python_args PYTHON_SOURCES python_install_sources)
 endif()
@@ -56,6 +64,14 @@ target_link_libraries(lcmtypes_bot2-core lcm)
 install(FILES ${c_install_headers} DESTINATION include/lcmtypes)
 install(FILES ${cpp_install_headers} DESTINATION include/lcmtypes/bot_core)
 
+install(TARGETS lcmtypes_bot2-core
+  EXPORT ${PROJECT_NAME}Targets
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib${LIB_SUFFIX}
+  ARCHIVE DESTINATION lib${LIB_SUFFIX}
+  INCLUDES DESTINATION include
+)
+
 if(PYTHONINTERP_FOUND)
   lcm_install_python(${python_install_sources})
 endif()
@@ -70,4 +86,41 @@ if(JAVA_FOUND)
   )
 
   install_jar(lcmtypes_bot2-core-jar share/java)
+
+  set(BOT2-CORE_INCLUDE_JAVA
+    "include(\${CMAKE_CURRENT_LIST_DIR}/bot2-coreJavaTargets.cmake)"
+  )
+  export_jars(
+    FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}JavaTargets.cmake
+    TARGETS lcmtypes_bot2-core-jar
+  )
+  install_jar_exports(
+    FILE ${PROJECT_NAME}JavaTargets.cmake
+    DESTINATION ${CONFIG_INSTALL_DIR}
+    TARGETS lcmtypes_bot2-core-jar
+  )
 endif()
+
+configure_package_config_file(
+  ${PROJECT_SOURCE_DIR}/${PROJECT_NAME}Config.cmake.in
+  ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+  INSTALL_DESTINATION ${CONFIG_INSTALL_DIR}
+)
+
+# Exported targets for build directory
+export(
+  TARGETS lcmtypes_bot2-core
+  FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake
+)
+
+# Exported targets for installation
+install(EXPORT ${PROJECT_NAME}Targets
+  DESTINATION ${CONFIG_INSTALL_DIR}
+  FILE ${PROJECT_NAME}Targets.cmake
+)
+
+# Install package configuration files
+install(FILES
+  ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+  DESTINATION ${CONFIG_INSTALL_DIR}
+)
