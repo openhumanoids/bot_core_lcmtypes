@@ -1,10 +1,11 @@
-cmake_minimum_required(VERSION 2.6.0)
+project(bot2-core)
+cmake_minimum_required(VERSION 2.8.12)
 
-set(POD_NAME bot2-core)
+# TODO remove when minimum CMake >= 3.7
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-include(cmake/pods.cmake)
+find_package(lcm REQUIRED)
+include(${LCM_USE_FILE})
 
-include(cmake/lcmtypes.cmake)
-lcmtypes_build(C_AGGREGATE_HEADER bot_core CPP_AGGREGATE_HEADER bot_core JARNAME lcmtypes_bot2-core C_LIBNAME lcmtypes_bot2-core)
-
+add_subdirectory(lcmtypes)
 add_subdirectory(java)

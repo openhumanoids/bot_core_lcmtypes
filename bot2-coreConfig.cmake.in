@@ -1,0 +1,8 @@
+if(NOT lcm_DIR)
+  set(lcm_DIR @lcm_DIR@)
+endif()
+
+find_package(lcm REQUIRED)
+
+include(${CMAKE_CURRENT_LIST_DIR}/bot2-coreTargets.cmake)
+@BOT2-CORE_INCLUDE_JAVA@
