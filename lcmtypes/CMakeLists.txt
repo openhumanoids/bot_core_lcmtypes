@@ -69,12 +69,14 @@ target_link_libraries(lcmtypes_bot2-core lcm)
 install(FILES ${c_install_headers} DESTINATION include/lcmtypes)
 install(FILES ${cpp_install_headers} DESTINATION include/lcmtypes/bot_core)
 
-install(TARGETS lcmtypes_bot2-core
+add_library(lcmtypes_bot2-core-cpp INTERFACE)
+
+install(TARGETS lcmtypes_bot2-core lcmtypes_bot2-core-cpp
   EXPORT ${PROJECT_NAME}Targets
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib${LIB_SUFFIX}
   ARCHIVE DESTINATION lib${LIB_SUFFIX}
-  INCLUDES DESTINATION include
+  INCLUDES DESTINATION include/lcmtypes
 )
 
 if(PYTHONINTERP_FOUND)
