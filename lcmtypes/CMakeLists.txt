@@ -64,13 +64,20 @@ lcm_wrap_types(
 )
 
 add_library(lcmtypes_bot2-core ${sources})
+target_include_directories(lcmtypes_bot2-core INTERFACE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>)
 target_link_libraries(lcmtypes_bot2-core lcm)
 set_target_properties(lcmtypes_bot2-core PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
-install(FILES ${c_install_headers} DESTINATION include/lcmtypes)
-install(FILES ${cpp_install_headers} DESTINATION include/lcmtypes/bot_core)
+lcm_install_headers(
+  ${c_install_headers}
+  ${cpp_install_headers}
+  DESTINATION include/lcmtypes
+)
 
 add_library(lcmtypes_bot2-core-cpp INTERFACE)
+target_include_directories(lcmtypes_bot2-core-cpp INTERFACE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>)
 
 install(TARGETS lcmtypes_bot2-core lcmtypes_bot2-core-cpp
   EXPORT ${PROJECT_NAME}Targets
