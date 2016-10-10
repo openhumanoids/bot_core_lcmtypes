@@ -7,7 +7,7 @@ endif()
 if(PYTHONINTERP_FOUND)
   set(python_args PYTHON_SOURCES python_install_sources)
 endif()
-if(JAVA_FOUND)
+if(JAVA_FOUND AND TARGET lcm-java)
   set(java_args JAVA_SOURCES java_sources)
 endif()
 
@@ -87,26 +87,30 @@ if(PYTHONINTERP_FOUND)
 endif()
 
 if(JAVA_FOUND)
-  add_jar(lcmtypes_bot2-core-jar
-    OUTPUT_NAME lcmtypes_bot2-core
-    INCLUDE_JARS lcm-java
-    SOURCES ${java_sources}
-  )
+  if(NOT TARGET lcm-java)
+    message(STATUS "lcm-java not found: not building Java LCM type bindings")
+  else()
+    add_jar(lcmtypes_bot2-core-jar
+      OUTPUT_NAME lcmtypes_bot2-core
+      INCLUDE_JARS lcm-java
+      SOURCES ${java_sources}
+    )
 
-  install_jar(lcmtypes_bot2-core-jar share/java)
+    install_jar(lcmtypes_bot2-core-jar share/java)
 
-  set(BOT2-CORE_INCLUDE_JAVA
-    "include(\${CMAKE_CURRENT_LIST_DIR}/bot2-coreJavaTargets.cmake)"
-  )
-  export_jars(
-    FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}JavaTargets.cmake
-    TARGETS lcmtypes_bot2-core-jar
-  )
-  install_jar_exports(
-    FILE ${PROJECT_NAME}JavaTargets.cmake
-    DESTINATION ${CONFIG_INSTALL_DIR}
-    TARGETS lcmtypes_bot2-core-jar
-  )
+    set(BOT2-CORE_INCLUDE_JAVA
+      "include(\${CMAKE_CURRENT_LIST_DIR}/bot2-coreJavaTargets.cmake)"
+    )
+    export_jars(
+      FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}JavaTargets.cmake
+      TARGETS lcmtypes_bot2-core-jar
+    )
+    install_jar_exports(
+      FILE ${PROJECT_NAME}JavaTargets.cmake
+      DESTINATION ${CONFIG_INSTALL_DIR}
+      TARGETS lcmtypes_bot2-core-jar
+    )
+  endif()
 endif()
 
 configure_package_config_file(
