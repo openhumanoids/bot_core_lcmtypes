@@ -58,21 +58,19 @@ lcm_wrap_types(
   bot_core_viewer_load_robot_t.lcm
 )
 
-add_library(lcmtypes_bot2-core ${c_sources})
+lcm_add_library(lcmtypes_bot2-core C ${c_sources} ${c_install_headers})
 target_include_directories(lcmtypes_bot2-core INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>)
-target_link_libraries(lcmtypes_bot2-core lcm)
-set_target_properties(lcmtypes_bot2-core PROPERTIES POSITION_INDEPENDENT_CODE ON)
+
+lcm_add_library(lcmtypes_bot2-core-cpp CPP ${cpp_install_headers})
+target_include_directories(lcmtypes_bot2-core-cpp INTERFACE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>)
 
 lcm_install_headers(
   ${c_install_headers}
   ${cpp_install_headers}
   DESTINATION include/lcmtypes
 )
-
-add_library(lcmtypes_bot2-core-cpp INTERFACE)
-target_include_directories(lcmtypes_bot2-core-cpp INTERFACE
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>)
 
 install(TARGETS lcmtypes_bot2-core lcmtypes_bot2-core-cpp
   EXPORT ${PROJECT_NAME}Targets
