@@ -17,7 +17,7 @@ if(JAVA_FOUND)
 endif()
 
 lcm_wrap_types(
-  C_SOURCES sources
+  C_SOURCES c_sources
   C_HEADERS c_install_headers
   CPP_HEADERS cpp_install_headers
   CREATE_C_AGGREGATE_HEADER
@@ -63,7 +63,7 @@ lcm_wrap_types(
   bot_core_viewer_load_robot_t.lcm
 )
 
-add_library(lcmtypes_bot2-core ${sources})
+add_library(lcmtypes_bot2-core ${c_sources})
 target_include_directories(lcmtypes_bot2-core INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>)
 target_link_libraries(lcmtypes_bot2-core lcm)
