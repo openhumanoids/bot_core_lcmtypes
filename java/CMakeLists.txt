@@ -1,4 +1,3 @@
-find_package(Java)
 if(NOT JAVA_FOUND)
   message(STATUS "Java not found: not building Java LCM-SPY plugins")
   return()
@@ -9,7 +8,6 @@ if(NOT TARGET lcm-java)
 endif()
 
 message(STATUS "Found Java and lcm-java: building Java LCM-SPY plugins")
-include(UseJava)
 
 set(src_dir ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(jar_fname lcmspy_plugins_bot2.jar)

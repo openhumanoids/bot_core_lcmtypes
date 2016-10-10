@@ -1,8 +1,3 @@
-find_package(PythonInterp)
-find_package(Java)
-
-include(CMakePackageConfigHelpers)
-
 if(WIN32)
   set(CONFIG_INSTALL_DIR CMake)
 else()
@@ -92,8 +87,6 @@ if(PYTHONINTERP_FOUND)
 endif()
 
 if(JAVA_FOUND)
-  include(UseJava)
-
   add_jar(lcmtypes_bot2-core-jar
     OUTPUT_NAME lcmtypes_bot2-core
     INCLUDE_JARS lcm-java
