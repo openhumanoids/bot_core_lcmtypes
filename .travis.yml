@@ -3,7 +3,7 @@ dist: trusty
 before_install:
   - cd && git clone https://github.com/lcm-proj/lcm.git
   - cd lcm && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX=./install ..
-  - make -j4
+  - cmake --build . --target install
 script:
   - cd $TRAVIS_BUILD_DIR
   - mkdir build && cd build && cmake -DCMAKE_PREFIX_PATH=/home/travis/lcm/build/install ..
