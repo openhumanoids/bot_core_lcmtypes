@@ -1,0 +1,12 @@
+prefix=@BOT2_CORE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib@LIB_SUFFIX@
+includedir=${prefix}/include
+
+Name: lcmtypes_bot2-core-java
+Description: LCM type java bindings for bot2-core
+Requires:  lcm-java
+Version: 0.0.0
+Libs:
+Cflags:
+classpath=${prefix}/share/java/lcmtypes_bot2-core.jar
