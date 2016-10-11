@@ -2,14 +2,9 @@ sudo: required
 dist: trusty
 before_install:
   - cd && git clone https://github.com/lcm-proj/lcm.git
-  - cd lcm && mkdir build && cd build && cmake ..
-  - make -j4
-  - export LCM_BASE=/home/travis/lcm
-  - export PATH=$PATH:$LCM_BASE/bin
-  - export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-  - export LD_LIBRARY_PATH=$LCM_BASE/lib:$LCM_BASE/lib64:$LD_LIBRARY_PATH
-  - export PKG_CONFIG_PATH=$LCM_BASE/lib/pkgconfig:$LCM_BASE/lib64/pkgconfig:$PKG_CONFIG_PATH
+  - cd lcm && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX=./install ..
+  - cmake --build . --target install
 script:
   - cd $TRAVIS_BUILD_DIR
-  - mkdir build && cd build && cmake ..
+  - mkdir build && cd build && cmake -DCMAKE_PREFIX_PATH=/home/travis/lcm/build/install ..
   - make
