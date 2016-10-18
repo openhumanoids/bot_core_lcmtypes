@@ -1,6 +1,10 @@
 project(bot2-core)
 cmake_minimum_required(VERSION 3.1)
 
+if(CMAKE_VERSION VERSION_LESS 3.7)
+  list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+endif()
+
 include(CMakePackageConfigHelpers)
 include(GenerateExportHeader)
 
