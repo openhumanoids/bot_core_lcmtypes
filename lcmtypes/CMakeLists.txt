@@ -1,8 +1,3 @@
-find_package(PythonInterp)
-find_package(Java)
-
-include(CMakePackageConfigHelpers)
-
 if(WIN32)
   set(CONFIG_INSTALL_DIR CMake)
 else()
@@ -12,12 +7,13 @@ endif()
 if(PYTHONINTERP_FOUND)
   set(python_args PYTHON_SOURCES python_install_sources)
 endif()
-if(JAVA_FOUND)
+if(JAVA_FOUND AND TARGET lcm-java)
   set(java_args JAVA_SOURCES java_sources)
 endif()
 
 lcm_wrap_types(
-  C_SOURCES sources
+  C_EXPORT bot_core_lcmtypes
+  C_SOURCES c_sources
   C_HEADERS c_install_headers
   CPP_HEADERS cpp_install_headers
   CREATE_C_AGGREGATE_HEADER
@@ -63,14 +59,21 @@ lcm_wrap_types(
   bot_core_viewer_load_robot_t.lcm
 )
 
-add_library(lcmtypes_bot2-core ${sources})
-target_link_libraries(lcmtypes_bot2-core lcm)
-set_target_properties(lcmtypes_bot2-core PROPERTIES POSITION_INDEPENDENT_CODE ON)
+lcm_add_library(lcmtypes_bot2-core C ${c_sources} ${c_install_headers})
+generate_export_header(lcmtypes_bot2-core
+  BASE_NAME bot_core_lcmtypes)
+target_include_directories(lcmtypes_bot2-core INTERFACE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>)
 
-install(FILES ${c_install_headers} DESTINATION include/lcmtypes)
-install(FILES ${cpp_install_headers} DESTINATION include/lcmtypes/bot_core)
+lcm_add_library(lcmtypes_bot2-core-cpp CPP ${cpp_install_headers})
+target_include_directories(lcmtypes_bot2-core-cpp INTERFACE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>)
 
-add_library(lcmtypes_bot2-core-cpp INTERFACE)
+lcm_install_headers(
+  ${c_install_headers}
+  ${cpp_install_headers}
+  DESTINATION include/lcmtypes
+)
 
 install(TARGETS lcmtypes_bot2-core lcmtypes_bot2-core-cpp
   EXPORT ${PROJECT_NAME}Targets
@@ -85,28 +88,30 @@ if(PYTHONINTERP_FOUND)
 endif()
 
 if(JAVA_FOUND)
-  include(UseJava)
+  if(NOT TARGET lcm-java)
+    message(STATUS "lcm-java not found: not building Java LCM type bindings")
+  else()
+    add_jar(lcmtypes_bot2-core-jar
+      OUTPUT_NAME lcmtypes_bot2-core
+      INCLUDE_JARS lcm-java
+      SOURCES ${java_sources}
+    )
 
-  add_jar(lcmtypes_bot2-core-jar
-    OUTPUT_NAME lcmtypes_bot2-core
-    INCLUDE_JARS lcm-java
-    SOURCES ${java_sources}
-  )
+    install_jar(lcmtypes_bot2-core-jar share/java)
 
-  install_jar(lcmtypes_bot2-core-jar share/java)
-
-  set(BOT2-CORE_INCLUDE_JAVA
-    "include(\${CMAKE_CURRENT_LIST_DIR}/bot2-coreJavaTargets.cmake)"
-  )
-  export_jars(
-    FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}JavaTargets.cmake
-    TARGETS lcmtypes_bot2-core-jar
-  )
-  install_jar_exports(
-    FILE ${PROJECT_NAME}JavaTargets.cmake
-    DESTINATION ${CONFIG_INSTALL_DIR}
-    TARGETS lcmtypes_bot2-core-jar
-  )
+    set(BOT2-CORE_INCLUDE_JAVA
+      "include(\${CMAKE_CURRENT_LIST_DIR}/bot2-coreJavaTargets.cmake)"
+    )
+    export_jars(
+      FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}JavaTargets.cmake
+      TARGETS lcmtypes_bot2-core-jar
+    )
+    install_jar_exports(
+      FILE ${PROJECT_NAME}JavaTargets.cmake
+      DESTINATION ${CONFIG_INSTALL_DIR}
+      TARGETS lcmtypes_bot2-core-jar
+    )
+  endif()
 endif()
 
 configure_package_config_file(
