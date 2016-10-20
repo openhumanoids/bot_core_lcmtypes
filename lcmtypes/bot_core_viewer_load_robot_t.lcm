@@ -1,0 +1,7 @@
+package bot_core;
+
+struct viewer_load_robot_t
+{
+  int32_t num_links;
+  viewer_link_data_t link[num_links];  
+}
