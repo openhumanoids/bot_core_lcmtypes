@@ -70,6 +70,7 @@ target_include_directories(lcmtypes_bot2-core-cpp INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>)
 
 lcm_install_headers(
+  ${CMAKE_CURRENT_BINARY_DIR}/bot_core_lcmtypes_export.h
   ${c_install_headers}
   ${cpp_install_headers}
   DESTINATION include/lcmtypes
