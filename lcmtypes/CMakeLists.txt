@@ -16,6 +16,7 @@ lcm_wrap_types(
   C_SOURCES c_sources
   C_HEADERS c_install_headers
   CPP_HEADERS cpp_install_headers
+  CPP_INCLUDE lcmtypes
   CREATE_C_AGGREGATE_HEADER
   CREATE_CPP_AGGREGATE_HEADER
   ${python_args}
