@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>bot_core_lcmtypes</name>
+  <version>0.0.0</version>
+  <description>The bot_core_lcmtypes package</description>
+  <maintainer email="v.ivan@ed.ac.uk">Vladimir Ivan</maintainer>
+
+  <license>BSD</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>lcm_ros</depend>
+</package>
