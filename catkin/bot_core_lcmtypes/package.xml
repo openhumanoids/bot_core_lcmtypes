@@ -7,5 +7,5 @@
 
   <license>BSD</license>
   <buildtool_depend>catkin</buildtool_depend>
-  <depend>lcm_ros</depend>
+  <depend>lcm_catkin</depend>
 </package>

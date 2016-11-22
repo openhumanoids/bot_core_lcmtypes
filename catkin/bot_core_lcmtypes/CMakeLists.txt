@@ -2,14 +2,12 @@ cmake_minimum_required(VERSION 2.8.3)
 project(bot_core_lcmtypes)
 
 find_package(catkin REQUIRED COMPONENTS
-  lcm_ros
+lcm_catkin
 )
 
 catkin_package(
-  #INCLUDE_DIRS include/${PROJECT_NAME}
-  LIBRARIES lcmtypes_${PROJECT_NAME}
-  CATKIN_DEPENDS lcm_ros
-#  DEPENDS system_lib
+  LIBRARIES ${PROJECT_NAME}
+  CATKIN_DEPENDS lcm_catkin
 )
 
 FindLCM(../../)
