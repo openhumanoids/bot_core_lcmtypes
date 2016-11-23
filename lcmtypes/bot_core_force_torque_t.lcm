@@ -8,13 +8,19 @@ package bot_core;
 
 struct force_torque_t
 {
+   float l_foot_force_x;
+   float l_foot_force_y;
    float l_foot_force_z;
    float l_foot_torque_x;
    float l_foot_torque_y;
+   float l_foot_torque_z;
 
+   float r_foot_force_x;
+   float r_foot_force_y;
    float r_foot_force_z;
    float r_foot_torque_x;
    float r_foot_torque_y;
+   float r_foot_torque_z;
 
    float l_hand_force[3];
    float l_hand_torque[3];
