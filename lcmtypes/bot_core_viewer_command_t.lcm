@@ -16,6 +16,6 @@ struct viewer_command_t
   const int8_t SET_TERRAIN_TRANSFORM = 7;
   const int8_t SAVE_SCREENSHOT  = 8;
   const int8_t SET_VIEW_SIZE    = 9;
-  const int8_t SET_CAMERA_POSE  = 10;
+  const int8_t LOOK_AT          = 10;
   const int8_t UPDATE_TEXT      = 11;
 }
