@@ -123,7 +123,7 @@ configure_package_config_file(
 
 # Exported targets for build directory
 export(
-  TARGETS lcmtypes_bot2-core
+  TARGETS lcmtypes_bot2-core lcmtypes_bot2-core-cpp
   FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake
 )
 
