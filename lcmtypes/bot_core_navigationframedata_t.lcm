@@ -1,0 +1,42 @@
+package bot_core;
+
+// based on pbOxTSNavigationFrameData.proto
+// package can be changed to oxts if necessary
+
+struct navigationframedata_t
+{
+  int64_t utime;
+  int64_t ins_utime;
+  int32_t ins_serial_number;
+
+  double latitude; // rads
+  double longitude; // rads
+  double altitude; // meters
+
+  string utm_zone;
+
+  // all meters
+  double utm_northing;
+  double utm_easting;
+  double utm_down;
+  double north_accuracy;
+  double east_accuracy;
+  double down_accuracy;
+
+  // all meters/second
+  double velocity_north;
+  double velocity_east;
+  double velocity_down;
+  double velocity_north_accuracy;
+  double velocity_east_accuracy;
+  double velocity_down_accuracy;
+  
+  // all radians
+  double roll;
+  double pitch;
+  double yaw;
+  double roll_accuracy;
+  double pitch_accuracy;
+  double yaw_accuracy;
+}
+
